@@ -1,4 +1,3 @@
-// src/auth/jwt.strategy.ts
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -18,6 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       audience: configService.get<string>('AUTH0_AUDIENCE'),
       issuer: `${configService.get<string>('AUTH0_ISSUER_URL')}`,
       algorithms: ['RS256'],
+      passReqToCallback: true,
       secretOrKeyProvider: passportJwtSecret({
         cache: true,
         rateLimit: true,
@@ -27,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: JwtPayload): JwtPayload {
+  validate(request: any, payload: JwtPayload): JwtPayload {
     return payload;
   }
 }

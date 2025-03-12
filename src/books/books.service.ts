@@ -17,7 +17,9 @@ export class BooksService {
 
   async findAll(): Promise<Book[]> {
     this.logger.log('Fetching all books');
-    return this.booksRepository.find();
+    return this.booksRepository.find({
+      order: { createdAt: 'DESC' },
+    });
   }
 
   async findOne(id: number): Promise<Book> {
